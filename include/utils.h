@@ -5,5 +5,6 @@
 #define _utils_clear_array(x) memset(&(x), 0, sizeof(x))
 
 
-void print_error(char *str, ...);
+void _utils_print_error(const char *str, ...);
+
 #endif

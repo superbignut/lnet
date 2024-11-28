@@ -2,18 +2,11 @@
 #include "ethernet.h"
 #include "syshead.h"
 #include "utils.h"
+#include "tuntap_if.h"
 #define BUF_LEN 100
 
 void handle_frame(struct netdev * netdev, struct eth_hdr *hdr){
 
-}
-
-void help_func(char *str, ...){
-  va_list _ls;
-  va_start(_ls, str);
-
-  
-  printf("%s", str);
 }
 
 int main(){
@@ -24,9 +17,8 @@ int main(){
   
   _utils_clear_array(buf);
 
-  //tun_init()
+  tun_init(dev);
 
-  help_func("111", 123,123);
-  
+
   return 0;
 }
