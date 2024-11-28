@@ -19,6 +19,6 @@ struct eth_hdr
  * @param buf 
  * @return struct ehc_hdr* 
  */
-struct ehc_hdr* init_eth_hdr(char * buf);
+struct ehc_hdr* init_eth_hdr(char *buf);
 
 #endif

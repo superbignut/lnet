@@ -12,4 +12,5 @@
 #include <linux/if_tun.h>
 #include <sys/ioctl.h>
 #include <errno.h>
+#include <unistd.h>
 #endif
