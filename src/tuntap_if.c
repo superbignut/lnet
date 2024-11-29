@@ -22,13 +22,19 @@ Which one is being used depends on the flags given with the ioctl().
 
 static int tun_fd;
 
-
-static int set_if_route(char *dev, char *cidr){
-    return _utils_run_cmd("ip route add dev %s %s", dev, cidr);
+/// @brief Bring up network interface "dev". Turn flags from down to up in ifconfig -a or ip link show. 
+/// @param dev interface name.
+/// @return Error 1 
+static int network_interface_set_up(char *dev){
+    return _utils_run_cmd("ip link set dev %s up");
 }
 
-static int set_if_up(char *dev){
-    return _utils_run_cmd("ip link set dev %s up");
+/// @brief Add a route to device "dev".
+/// @param dev interface name.
+/// @param cidr ip/mask
+/// @return Error 1
+static int network_interface_add_route(char *dev, char *cidr){
+    return _utils_run_cmd("ip route add dev %s %s", dev, cidr);
 }
 
 static int tun_alloc(char *dev){
@@ -45,11 +51,11 @@ static int tun_alloc(char *dev){
     ifr.ifr_flags = IFF_TAP | IFF_NO_PI;
 
     if(*dev){
-        strncpy(ifr.ifr_name, dev, IFNAMSIZ);
+        strncpy(ifr.ifr_name, dev, IFNAMSIZ);//tap0
     }
 
     if( (err = ioctl(fd, TUNSETIFF, (void*) &ifr)) < 0){
-        _utils_print_error("can't ioctl TUN: %s\n", strerror(errno));
+        _utils_print_error("can't ioctl TUN");
         exit(1);
     }
 
@@ -60,12 +66,15 @@ static int tun_alloc(char *dev){
 
 
 void tun_init(char *dev){
+
     tun_fd = tun_alloc(dev);
-    if(set_if_up(dev) != 0){
-        _utils_print_error("can't setup if");
+
+    if(network_interface_set_up(dev) != 0){
+        _utils_print_error("can't setup interface.");
     }
-    if(set_if_route(dev, "10.0.0.0/24") != 0){
-        _utils_print_error("can't set route");
+
+    if(network_interface_add_route(dev, "10.0.0.0/24") != 0){
+        _utils_print_error("can't add route.");
     }
 }
 
