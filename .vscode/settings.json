@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "stab.h": "c",
+        "netdev.h": "c",
+        "compare": "cpp",
+        "ethernet.h": "c",
+        "if_ether.h": "c",
+        "stdio.h": "c",
+        "syshead.h": "c",
+        "inet.h": "c",
+        "tuntap_if.h": "c",
+        "if.h": "c",
+        "utils.h": "c",
+        "cstdarg": "c",
+        "arp.h": "c",
+        "fcntl.h": "c"
+    }
+}

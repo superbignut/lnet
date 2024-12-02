@@ -25,27 +25,30 @@ void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
 int main(){
 
   char buf[BUF_LEN];
-  char *dev = calloc(10,1);
-  struct netdev netdev;
   
-  _utils_clear_array(buf);
+  char dev[15] = "lnet_tap_0";  //calloc(10,1);
 
-  tun_init(dev);
+  struct netdev net_device;
+  
+  _utils_clear_array(buf);  
 
-  netdev_init(&netdev, "10.0.0.4", "00:0c:29:6d:50:25");
+  tun_tap_init(dev);
+
+  network_device_init(&net_device, "10.0.0.4", "00:0c:29:6d:50:25");
 
   arp_init();
 
-
   while(1){
-    if(tun_read(buf, BUF_LEN) < 0){
+
+    if(tun_tap_read(buf, BUF_LEN) < 0){
       _utils_print_error("read from tun.");
     }
+
     _utils_print_hexdump(buf, BUF_LEN);
 
     struct eth_hdr *hdr = init_eth_hdr(buf);
 
-    handle_frame(&netdev, hdr);
+    handle_frame(&net_device, hdr);
   }
 
   return 0;

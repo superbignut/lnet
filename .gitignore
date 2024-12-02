@@ -1,3 +1,4 @@
 build/*.o
-.vscode/
 lnet
+test.c
+test

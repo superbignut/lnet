@@ -5,11 +5,11 @@ obj = $(patsubst src/%.c, build/%.o, $(src))
 headers = $(wildcard include /*.h)
 
 lnet: $(obj)
-	gcc $(obj) -o $@
+	gcc  -g $(obj) -o $@
 
 build/%.o: src/%.c
 	$(shell mkdir -p $(dir $@))
-	gcc $(CFLAGS) -c $< -o $@
+	gcc -g  $(CFLAGS) -c $< -o $@
 
 clean:
 	rm build/*.o lnet
