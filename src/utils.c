@@ -38,7 +38,7 @@ void _utils_print_hexdump(char *str, int len)
 {
     printf("printing hexdump:\n");
     for (int i = 0; i < len; i ++) {
-        if (i % 8 == 0){
+        if (i % 32 == 0){
             printf("\n");
         }
         printf("%02x ", (unsigned char)str[i]); // 如果不转为unsigned char 会被转为整形int32 

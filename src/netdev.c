@@ -20,14 +20,13 @@ void network_device_init(struct netdev *dev, char *addr, char *hwaddr){
     // 读取mac 地址
     sscanf(hwaddr, "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx", &dev->hwaddr[0], &dev->hwaddr[1],
                                                     &dev->hwaddr[2], &dev->hwaddr[3],
-                                                    &dev->hwaddr[4], &dev->hwaddr[5]);
-    // printf("yes %02hhx\n", dev->hwaddr[5]);
+                                                    &dev->hwaddr[4], &dev->hwaddr[5]); // hhx means unsigned char.
 }
 
 /// @brief 发送 不同 ethernet_type 类型的以太网数据包
 /// @param dev 
 /// @param hdr 
-/// @param ethernet_type 输入小端即可
+/// @param ethernet_type 输入小端
 /// @param len 
 /// @param dst 
 void netdev_transmit(struct netdev *dev, struct eth_hdr *ethhdr, uint16_t ethernet_type, int len, unsigned char *dst){
@@ -35,5 +34,5 @@ void netdev_transmit(struct netdev *dev, struct eth_hdr *ethhdr, uint16_t ethern
     memcpy(ethhdr->smac, dev->hwaddr, LNET_ETH_ADD_LEN);
     memcpy(ethhdr->dmac, dst, LNET_ETH_ADD_LEN);
     len += sizeof(struct eth_hdr);
-    tun_tap_write(ethhdr, len);
+    tun_tap_write((char*)ethhdr, len);
 }

@@ -100,6 +100,7 @@ void arp_incoming(struct netdev *netdev, struct eth_hdr *ethhdr)
 
     switch (ntohs(tmp_arp_hdr->opcode)) {
     case LNET_ARP_OP_REQUEST:
+        printf("Received ARP message target oneself. Start replying.\n");
         arp_reply(netdev, ethhdr, tmp_arp_hdr);
         break;
     default:
