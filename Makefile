@@ -1,15 +1,22 @@
 CFLAGS = -I include -Wall
 
-src = $(wildcard src/*.c)
-obj = $(patsubst src/%.c, build/%.o, $(src))
-headers = $(wildcard include /*.h)
+SRC = $(wildcard src/*.c)
+OBJ = $(patsubst src/%.c, build/%.o, $(SRC))
+# headers = $(wildcard include /*.h)
 
-lnet: $(obj)
-	gcc  -g $(obj) -o $@
+TAP_NODE := /dev/net/tap
+
+lnet: $(OBJ)
+ifeq ($(wildcard $(TAP_NODE)), "")
+	mknod /dev/net/tap c 10 200
+endif
+	gcc  -g $(OBJ) -o $@
+	./lnet
+
 
 build/%.o: src/%.c
 	$(shell mkdir -p $(dir $@))
 	gcc -g  $(CFLAGS) -c $< -o $@
 
 clean:
-	rm build/*.o lnet
+	rm build/*.o lnet -rf

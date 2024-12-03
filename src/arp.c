@@ -1,6 +1,6 @@
 #include "arp.h"
 
-/// @brief arp 缓存
+/// @brief arp 缓存： 保存局域网中 ip 和 mac 地址德映射表
 static struct arp_cache_entry arp_cache[ARP_CACHE_LEN];
 
 static int insert_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *data)
@@ -42,12 +42,19 @@ static int update_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *da
 }
 
 
-/// @brief arp 初始化 ： 缓存清空
-void arp_init(){
+/// @brief 清空 arp 缓存
+static void arp_cache_clear(){
     memset(arp_cache, 0, ARP_CACHE_LEN * sizeof(struct arp_cache_entry));
 }
 
+/// @brief arp 初始化
+void arp_init(){
+    arp_cache_clear(); // 清空 arp_cache
+}
 
+/// @brief 
+/// @param netdev 
+/// @param hdr 
 void arp_incoming(struct netdev *netdev, struct eth_hdr *hdr)
 {
     struct arp_hdr *arphdr;

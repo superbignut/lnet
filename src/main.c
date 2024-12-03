@@ -9,7 +9,7 @@
 
 void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
 {
-    switch (hdr->ether_type) {
+    switch (hdr->eth_type) {
         case ETH_P_ARP:
             arp_incoming(netdev, hdr);
             break;
@@ -17,7 +17,7 @@ void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
             printf("Found IPv4\n");
             break;
         default:
-            printf("Unrecognized ethertype %x\n", hdr->ether_type);
+            printf("Unrecognized ethertype %x\n", hdr->eth_type);
             break;
     }
 }
@@ -46,7 +46,7 @@ int main(){
 
     _utils_print_hexdump(buf, BUF_LEN);
 
-    struct eth_hdr *hdr = init_eth_hdr(buf);
+    struct eth_hdr *hdr = init_ethernet_header(buf); // 收到的 以太网数据帧
 
     handle_frame(&net_device, hdr);
   }

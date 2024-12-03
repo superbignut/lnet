@@ -2,7 +2,9 @@
 #include "utils.h"
 
 
-
+/// @brief 
+/// @param fmt 打印错误 fmt
+/// @param  
 void _utils_print_error(const char *fmt, ...){
     va_list _ls;
     char buf[200];
@@ -15,7 +17,10 @@ void _utils_print_error(const char *fmt, ...){
     perror(buf);
 }
 
-
+/// @brief system 执行命令 fmt
+/// @param fmt 
+/// @param  
+/// @return 
 int _utils_run_cmd(char *fmt, ...){
     va_list _ls;
     char buf[CMDBUFLEN];
@@ -26,6 +31,9 @@ int _utils_run_cmd(char *fmt, ...){
     return system(buf);
 }
 
+/// @brief unsigned char 打印 len 个 str 字符， 输出每行 8个字节
+/// @param str 
+/// @param len 
 void _utils_print_hexdump(char *str, int len)
 {
     printf("printing hexdump:\n");
@@ -33,7 +41,7 @@ void _utils_print_hexdump(char *str, int len)
         if (i % 8 == 0){
             printf("\n");
         }
-        printf("%02x ", (unsigned char)str[i]);
+        printf("%02x ", (unsigned char)str[i]); // 如果不转为unsigned char 会被转为整形int32 
     }
 
     printf("\n");

@@ -23,7 +23,7 @@ void network_device_init(struct netdev *dev, char *addr, char *hwaddr){
 }
 
 void netdev_transmit(struct netdev *dev, struct eth_hdr *hdr, uint16_t ethernet_type, int len, unsigned char *dst){
-    hdr->ether_type = htons(ethernet_type);
+    hdr->eth_type = htons(ethernet_type);
     memcpy(hdr->smac, dev->hwaddr, 6);
     memcpy(hdr->dmac, dst, 6);
     len += sizeof(struct eth_hdr);
