@@ -1,3 +1,8 @@
+/*
+  变量里的数据全用大端， 只有比较的时候用htons\ntohs转成小端
+*/
+
+
 #include "netdev.h"
 #include "ethernet.h"
 #include "syshead.h"
@@ -9,7 +14,7 @@
 
 void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
 {
-    switch (hdr->eth_type) {
+    switch (ntohs(hdr->eth_type)) {
         case ETH_P_ARP:
             arp_incoming(netdev, hdr);
             break;
@@ -46,7 +51,7 @@ int main(){
 
     _utils_print_hexdump(buf, BUF_LEN);
 
-    struct eth_hdr *hdr = init_ethernet_header(buf); // 收到的 以太网数据帧
+    struct eth_hdr *hdr = init_ethernet_header(buf); // 收到的
 
     handle_frame(&net_device, hdr);
   }

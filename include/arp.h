@@ -13,6 +13,7 @@
             48.bit: Ethernet address of destination
             48.bit: Ethernet address of sender
             16.bit: Protocol type = ether_type$ADDRESS_RESOLUTION
+// Use the same codes as listed in the section called "Ethernet Numbers of Interest" (all hardware types use this code set for the protocol type). --from ltl rfc1700
         Ethernet packet data:
             16.bit: (ar$hrd) Hardware address space (e.g., Ethernet,
                             Packet Radio Net.)
@@ -37,18 +38,18 @@
 #include "syshead.h"
 #include "netdev.h"
 
-#define ARP_ETHERNET    0x0001
-#define ARP_IPV4        0x0800
-#define ARP_REQUEST     0x0001
-#define ARP_REPLY       0x0002
+#define LNET_ARP_ETHERNET   0x0001      // rfc826
+#define LNET_ARP_IPV4       0x0800      // rfc1700
+#define LNET_ARP_OP_REQUEST 0x0001      // rfc1700
+#define LNET_ARP_OP_REPLY   0x0002      // rfc1700
 
-#define ARP_CACHE_LEN   32
-#define ARP_FREE        0
-#define ARP_WAITING     1
-#define ARP_RESOLVED    2
+#define LNET_ARP_CACHE_LEN   32          // cache 大小
+#define LNET_ARP_FREE        0           //
+#define LNET_ARP_WAITING     1
+#define LNET_ARP_USED    2
 
-#define ETH_ADD_LEN 6
-#define IPV4_ADD_LEN 4 
+#define LNET_ETH_ADD_LEN 6
+#define LNET_IPV4_ADD_LEN 4 
 
 /// @brief arp 数据包 header 格式
 struct arp_hdr
@@ -64,9 +65,9 @@ struct arp_hdr
 /// @brief arp 数据包的 ipv4 内容
 struct arp_ipv4
 {
-    unsigned char smac[ETH_ADD_LEN];            // 发送的硬件地址
+    unsigned char smac[LNET_ETH_ADD_LEN];       // 发送的硬件地址
     uint32_t sip;                               // 源ip
-    unsigned char dmac[ETH_ADD_LEN];            // 接受的硬件地址， 空
+    unsigned char dmac[LNET_ETH_ADD_LEN];       // 接受的硬件地址， 空
     uint32_t dip;                               // 目的ip
 } __attribute__((packed));
 
@@ -75,8 +76,8 @@ struct arp_cache_entry
 {
     uint16_t hwtype;                            // 硬件地址类型
     uint32_t sip;                               // 源 ip
-    unsigned char smac[ETH_ADD_LEN];            // 源 mac
-    unsigned int state;                         // 
+    unsigned char smac[LNET_ETH_ADD_LEN];       // 源 mac
+    unsigned int state;                         // 是否使用
 };
 
 

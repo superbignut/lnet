@@ -14,6 +14,6 @@ struct eth_hdr
 }__attribute__((packed));
 
 
-struct ehc_hdr* init_ethernet_header(char *buf);
+struct eth_hdr* init_ethernet_header(char *buf);
 
 #endif
