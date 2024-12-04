@@ -14,13 +14,13 @@ WIFI_DEVICE := wlps0
 
 TAP_DEVICE := lnet_tap_0
 
-define func_iptables_setting
-	sysctl net.ipv4.ip_forward=1
-	iptables -I INPUT -s 10.0.0.0/24 -j ACCEPT 
-	iptables -t nat -I POSTROUTING --out-interface $(WIFI_DEVICE) -j MASQUERADE
-	iptables -I FORWARD --in-interface $(WIFI_DEVICE) --out-interface $(TAP_DEVICE) -j ACCEPT
-	iptables -I FORWARD --in-interface $(TAP_DEVICE) --out-interface $(WIFI_DEVICE) -j ACCEPT
-endef
+# define func_iptables_setting
+# sysctl net.ipv4.ip_forward=1
+# iptables -I INPUT -s 10.0.0.0/24 -j ACCEPT 
+# iptables -t nat -I POSTROUTING --out-interface $(WIFI_DEVICE) -j MASQUERADE
+# iptables -I FORWARD --in-interface $(WIFI_DEVICE) --out-interface $(TAP_DEVICE) -j ACCEPT
+# iptables -I FORWARD --in-interface $(TAP_DEVICE) --out-interface $(WIFI_DEVICE) -j ACCEPT
+# endef
 
 .PHONY: lnet clean check
 

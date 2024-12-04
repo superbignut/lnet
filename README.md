@@ -7,9 +7,7 @@
 ---
 #### Pipeline:
 
-        make        
-        sudo mknod /dev/net/tap c 10 200
-        sudo ./lnet
-                                    // change terminal
-        arping -I tap0 10.0.0.4     // sudo apt install iputils-arping 
+        sudo make                       // change terminal
+                                        
+        arping -I lnet_tap_0 10.0.0.4   // sudo apt install iputils-arping 
 

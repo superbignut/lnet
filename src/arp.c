@@ -60,7 +60,7 @@ void arp_init(){
     arp_cache_clear(); // 清空 arp_cache
 }
 
-/// @brief 处理收到的 arp 数据包
+/// @brief 处理收到的 arp 数据包，与本地ip进行匹配，判断是否 reply
 /// @param netdev 
 /// @param hdr 
 void arp_incoming(struct netdev *netdev, struct eth_hdr *ethhdr)
@@ -109,7 +109,7 @@ void arp_incoming(struct netdev *netdev, struct eth_hdr *ethhdr)
     }
 }
 
-/// @brief 对收到的 arp 数据包做处理： ip mac 地址 修改
+/// @brief 对需要回复的 arp 数据包做处理： ip mac 地址 修改，进而调用 transmit 发送
 /// @param netdev 
 /// @param hdr 
 /// @param arphdr 

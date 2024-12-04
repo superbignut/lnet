@@ -35,7 +35,8 @@ static int network_interface_set_up(char *dev){
 /// @param cidr ip/mask
 /// @return Error 1
 static int network_interface_add_route(char *dev, char *cidr){
-    return _utils_run_cmd("ip route add dev %s %s", dev, cidr);
+    return 0;
+    // return _utils_run_cmd("ip route add dev %s %s via 0.0.0.0", dev, cidr); // 使用默认路由转发， 不写也是ok的
 }
 
 /// @brief 代码参考 linux 手册， 创建了一个 tap 端口
