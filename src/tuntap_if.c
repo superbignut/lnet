@@ -36,8 +36,7 @@ static int network_interface_set_up(char *dev){
 /// @param cidr ip/mask
 /// @return Error 1
 static int network_interface_add_route(char *dev, char *cidr){
-    // return 0;
-    return _utils_run_cmd("ip route add dev %s %s", dev, cidr); 
+    return _utils_run_cmd("ip route add dev %s %s", dev, cidr);    // 这里如果不加 local 会增加一个 直连路由
 }
 
 
@@ -46,8 +45,7 @@ static int network_interface_add_route(char *dev, char *cidr){
 /// @param cidr 
 /// @return 
 static int network_interface_set_address(char *dev, char *cidr){
-
-    return _utils_run_cmd("ip address add dev %s local %s", dev, cidr);  // 这个local 有什么用呢
+    return _utils_run_cmd("ip address add dev %s %s", dev, cidr);  // 默认就是 local
 }
 
 

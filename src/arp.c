@@ -121,9 +121,9 @@ void arp_reply(struct netdev *netdev, struct eth_hdr *ethhdr, struct arp_hdr *ar
 
     arpdata = (struct arp_ipv4 *) arphdr->data;
 
-    memcpy(arpdata->dmac, arpdata->smac, LNET_ETH_ADD_LEN);
+    memcpy(arpdata->dmac, arpdata->smac, LNET_ETH_ADDR_LEN);
     arpdata->dip = arpdata->sip;
-    memcpy(arpdata->smac, netdev->hwaddr, LNET_ETH_ADD_LEN);        // 源地址 用自己的hwaddr
+    memcpy(arpdata->smac, netdev->hwaddr, LNET_ETH_ADDR_LEN);        // 源地址 用自己的hwaddr
     arpdata->sip = netdev->addr;                                    // 源ip 也用自己的
 
     // arphdr->opcode = LNET_ARP_OP_REPLY;

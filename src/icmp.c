@@ -40,8 +40,9 @@ void icmpv4_reply(struct netdev *dev, struct eth_hdr *ethhdr){
 
     //  修改收到的类型 位 echo reply
     tmp_icmp_hdr->type = LNET_ICMP_TYPE_ECHO_REPLY;
-
+    
     // 修改校验和
+    tmp_icmp_hdr->csum = 0;
     tmp_icmp_hdr->csum = _utils_check_sum(tmp_icmp_hdr, icmp_len);
 
     //  ip包发回去

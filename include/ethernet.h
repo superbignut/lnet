@@ -6,10 +6,10 @@
 /// @brief Ethernet Header Format
 struct eth_hdr
 {   
-    unsigned char dmac[6];
-    unsigned char smac[6];
+    uint8_t dmac[6];
+    uint8_t smac[6];
     uint16_t eth_type;
-    unsigned char payload[];
+    uint8_t payload[];
 
 }__attribute__((packed));
 

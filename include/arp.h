@@ -49,26 +49,26 @@
 #define LNET_ARP_WAITING     1              // 暂未使用
 #define LNET_ARP_CACHE_USED    2            // cache 中使用的标记位
 
-#define LNET_ETH_ADD_LEN 6                  // 以太网地址字节数
-#define LNET_IPV4_ADD_LEN 4                 // ip地址字节数
+#define LNET_ETH_ADDR_LEN 6                  // 以太网地址字节数
+#define LNET_IPV4_ADDR_LEN 4                 // ip地址字节数
 
 /// @brief arp 数据包 header 格式
 struct arp_hdr
 {
     uint16_t hwtype;            // 硬件地址类型， 支持多种硬件， ARP_ETHERNET
     uint16_t protype;           // 协议地址类型，对应以太网中的 eth_type ARP_IPV4
-    unsigned char hwsize;       // 硬件地址字节长度， 支持多种硬件， 以太网是 6
-    unsigned char prosize;      // 协议地址字节长度, ipv4 是 4
+    uint8_t hwsize;       // 硬件地址字节长度， 支持多种硬件， 以太网是 6
+    uint8_t prosize;      // 协议地址字节长度, ipv4 是 4
     uint16_t opcode;            // request / reply 请求还是回应
-    unsigned char data[];       // 
+    uint8_t data[];       // 
 } __attribute__((packed));
 
 /// @brief arp 数据包的 ipv4 内容
 struct arp_ipv4
 {
-    unsigned char smac[LNET_ETH_ADD_LEN];       // 发送的硬件地址
+    uint8_t smac[LNET_ETH_ADDR_LEN];       // 发送的硬件地址
     uint32_t sip;                               // 源ip
-    unsigned char dmac[LNET_ETH_ADD_LEN];       // 接受的硬件地址， 空
+    uint8_t dmac[LNET_ETH_ADDR_LEN];       // 接受的硬件地址， 空
     uint32_t dip;                               // 目的ip
 } __attribute__((packed));
 
@@ -77,7 +77,7 @@ struct arp_cache_entry
 {
     uint16_t hwtype;                            // 硬件地址类型
     uint32_t sip;                               // 源 ip
-    unsigned char smac[LNET_ETH_ADD_LEN];       // 源 mac
+    uint8_t smac[LNET_ETH_ADDR_LEN];       // 源 mac
     unsigned int state;                         // 是否使用
 };
 

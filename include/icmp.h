@@ -47,8 +47,8 @@ Type    Name                                    Reference
  37-255 Reserved                                    [JBP]
  */
 
-#define LNET_ICMP_TYPE_ECHO 0x8
-#define LNET_ICMP_TYPE_ECHO_REPLY 0x0
+#define LNET_ICMP_TYPE_ECHO 0x08
+#define LNET_ICMP_TYPE_ECHO_REPLY 0x00
 
 
 

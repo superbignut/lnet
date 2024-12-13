@@ -29,10 +29,10 @@ void network_device_init(struct netdev *dev, char *addr, char *hwaddr){
 /// @param ethernet_type 输入小端
 /// @param len 
 /// @param dst 
-void netdev_transmit(struct netdev *dev, struct eth_hdr *ethhdr, uint16_t ethernet_type, int len, unsigned char *dst){
+void netdev_transmit(struct netdev *dev, struct eth_hdr *ethhdr, uint16_t ethernet_type, int len, uint8_t *dst){
     ethhdr->eth_type = htons(ethernet_type);
-    memcpy(ethhdr->smac, dev->hwaddr, LNET_ETH_ADD_LEN);
-    memcpy(ethhdr->dmac, dst, LNET_ETH_ADD_LEN);
+    memcpy(ethhdr->smac, dev->hwaddr, LNET_ETH_ADDR_LEN);
+    memcpy(ethhdr->dmac, dst, LNET_ETH_ADDR_LEN);
     len += sizeof(struct eth_hdr);
     tun_tap_write((char*)ethhdr, len);
 }

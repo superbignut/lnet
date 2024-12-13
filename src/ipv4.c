@@ -7,6 +7,7 @@
 /// @param dev 
 /// @param ethhdr 
 void ipv4_incoming(struct netdev *dev, struct eth_hdr *ethhdr){
+    
     struct iphdr *tmp_iphdr = (struct iphdr*)ethhdr->payload;
 
     uint16_t csum = -1;
@@ -15,16 +16,19 @@ void ipv4_incoming(struct netdev *dev, struct eth_hdr *ethhdr){
     if(tmp_iphdr->version != LNET_IPV4_VERSION){
         //  版本是 ipv4
         _utils_print_error("ip datagram version is not ipv4.\n");
+        return;
     }
 
     if(tmp_iphdr->ihl < 5){
         //  首部长度是 5 * 4B
         _utils_print_error("ipv4 header length must be at least 5.\n");
+        return;
     }
 
     if(tmp_iphdr->ttl == 0){
         //  ttl != 0
         _utils_print_error("time to live of ip datagram reached 0.\n");
+        return;
     }
 
     //  4个字节 计算校验和
@@ -63,13 +67,8 @@ void ipv4_outgoing(struct netdev *dev, struct eth_hdr *ethhdr){
     tmp_iphdr->daddr = tmp_iphdr->saddr;
     tmp_iphdr->saddr = tmp_addr;
 
-    // print()
-    // _utils_print_ip_addr("src addr is", tmp_iphdr->saddr);
-    // _utils_print_ip_addr("des addr is", tmp_iphdr->daddr);
-    // _utils_print_ip_addr("des addr is", tmp_iphdr->daddr);
-    //  修改校验和
+    
     tmp_iphdr->csum = 0;
     tmp_iphdr->csum = _utils_check_sum(tmp_iphdr, tmp_iphdr->ihl * 4);
-
     netdev_transmit(dev, ethhdr, ETH_P_IP, ntohs(tmp_iphdr->len), ethhdr->smac);
 }
