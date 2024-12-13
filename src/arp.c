@@ -13,8 +13,8 @@ static int insert_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *da
     for (int i = 0; i < LNET_ARP_CACHE_LEN; i++) {
         entry = &arp_cache[i];
 
-        if (entry->state == LNET_ARP_FREE) {        // 找到空闲区域
-            entry->state = LNET_ARP_USED;           
+        if (entry->state == LNET_ARP_CACHE_FREE) {        // 找到空闲区域
+            entry->state = LNET_ARP_CACHE_USED;           
 
             entry->hwtype = hdr->hwtype;                            // hwtype 
             entry->sip = data->sip;                                 // ip addr
@@ -38,7 +38,7 @@ static int update_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *da
     for (int i = 0; i < LNET_ARP_CACHE_LEN; i++) {
         entry = &arp_cache[i];
 
-        if (entry->state == LNET_ARP_FREE) continue;
+        if (entry->state == LNET_ARP_CACHE_FREE) continue;
 
         if (entry->hwtype == hdr->hwtype && entry->sip == data->sip) {
             memcpy(entry->smac, data->smac, sizeof(entry->smac));
@@ -70,7 +70,7 @@ void arp_incoming(struct netdev *netdev, struct eth_hdr *ethhdr)
 
     int merge = 0;
 
-    tmp_arp_hdr = (struct arp_hdr *) ethhdr->payload;              // arp header
+    tmp_arp_hdr = (struct arp_hdr *) ethhdr->payload;                  // arp header
 
     /*     tmp_arp_hdr->hwtype = ntohs(tmp_arp_hdr->hwtype);           // 网络字节序 转 小端
     tmp_arp_hdr->protype = ntohs(tmp_arp_hdr->protype);
@@ -90,7 +90,7 @@ void arp_incoming(struct netdev *netdev, struct eth_hdr *ethhdr)
 
     merge = update_arp_translation_table(tmp_arp_hdr, tmp_arp_data);
 
-    if (netdev->addr != tmp_arp_data->dip) {                    // ?Am I the target protocol address?
+    if (netdev->addr != tmp_arp_data->dip) {                            // ?Am I the target protocol address?
         printf("ARP was not for us\n");
     }
 

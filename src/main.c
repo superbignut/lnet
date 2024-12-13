@@ -9,20 +9,22 @@
 #include "utils.h"
 #include "tuntap_if.h"
 #include "arp.h"
+#include "ipv4.h"
 
 #define BUF_LEN 100
 
-void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
+void handle_frame(struct netdev *dev, struct eth_hdr *ethhdr)
 {
-    switch (ntohs(hdr->eth_type)) {
+    switch (ntohs(ethhdr->eth_type)) {
         case ETH_P_ARP:
-            arp_incoming(netdev, hdr);
+            arp_incoming(dev, ethhdr);
             break;
         case ETH_P_IP:
             printf("Found IPv4\n");
+            ipv4_incoming(dev, ethhdr);
             break;
         default:
-            printf("Unrecognized ethertype %x\n", hdr->eth_type);
+            printf("Unrecognized ethertype %x\n", ethhdr->eth_type);
             break;
     }
 }

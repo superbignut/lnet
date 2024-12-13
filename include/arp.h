@@ -38,18 +38,19 @@
 #include "syshead.h"
 #include "netdev.h"
 
-#define LNET_ARP_ETHERNET   0x0001      // rfc826
-#define LNET_ARP_IPV4       0x0800      // rfc1700
-#define LNET_ARP_OP_REQUEST 0x0001      // rfc1700
-#define LNET_ARP_OP_REPLY   0x0002      // rfc1700
+#define LNET_ARP_ETHERNET   0x0001          // rfc826 用于确定硬件地址类型是不是Ethernet
+#define LNET_ARP_IPV4       0x0800          // rfc1700 用于确定上层网络协议是不是ipv4
 
-#define LNET_ARP_CACHE_LEN   32          // cache 大小
-#define LNET_ARP_FREE        0           //
-#define LNET_ARP_WAITING     1
-#define LNET_ARP_USED    2
+#define LNET_ARP_OP_REQUEST 0x0001          // rfc1700 对应 opcode字段
+#define LNET_ARP_OP_REPLY   0x0002          // rfc1700 对应 opcode字段
 
-#define LNET_ETH_ADD_LEN 6
-#define LNET_IPV4_ADD_LEN 4 
+#define LNET_ARP_CACHE_LEN   32             // cache 大小
+#define LNET_ARP_CACHE_FREE        0        // cache 中使用的标记位
+#define LNET_ARP_WAITING     1              // 暂未使用
+#define LNET_ARP_CACHE_USED    2            // cache 中使用的标记位
+
+#define LNET_ETH_ADD_LEN 6                  // 以太网地址字节数
+#define LNET_IPV4_ADD_LEN 4                 // ip地址字节数
 
 /// @brief arp 数据包 header 格式
 struct arp_hdr
@@ -82,7 +83,9 @@ struct arp_cache_entry
 
 
 void arp_init();
+
 void arp_incoming(struct netdev *netdev, struct eth_hdr *hdr);
+
 void arp_reply(struct netdev *netdev, struct eth_hdr *hdr, struct arp_hdr *arphdr);
 
 #endif

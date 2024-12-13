@@ -11,4 +11,6 @@ void _utils_print_error(const char *str, ...);
 
 int _utils_run_cmd(char *cmd, ...);
 
+uint16_t _utils_check_sum(void *addr, int count);
+
 #endif

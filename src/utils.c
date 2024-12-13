@@ -46,3 +46,27 @@ void _utils_print_hexdump(char *str, int len)
 
     printf("\n");
 }
+
+/// @brief 计算 addr 开始的 count 个字节的16位校验和: 求和后取反
+/// @param addr 
+/// @param count 
+/// @return 
+uint16_t _utils_check_sum(void *addr, int count){
+    uint32_t sum = 0;
+
+    uint16_t *ptr = addr;
+
+    while(count > 1){
+        sum += *ptr++;
+        count -= 2;
+    }
+
+    if(count > 0){ // 奇数
+        sum += *(uint8_t *)addr;
+    }
+
+    while(sum >> 16){
+        sum = (sum & 0xffff) + (sum >> 16);
+    }
+    return ~sum;
+}

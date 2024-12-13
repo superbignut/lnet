@@ -14,6 +14,7 @@
         "cstdarg": "c",
         "arp.h": "c",
         "fcntl.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "ipv4.h": "c"
     }
 }
