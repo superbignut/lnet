@@ -13,4 +13,5 @@ int _utils_run_cmd(char *cmd, ...);
 
 uint16_t _utils_check_sum(void *addr, int count);
 
+void _utils_print_ip_addr(char *str, uint32_t addr);
 #endif

@@ -69,4 +69,21 @@ uint16_t _utils_check_sum(void *addr, int count){
         sum = (sum & 0xffff) + (sum >> 16);
     }
     return ~sum;
+    /*
+        这里就相当于是一种计算方式，更多的细节需要严格的证明，但是简单的理解可以认为，
+        如果原数据 是 0b0011， 校验和就是 0b1100, 求和之后再取反就一定是 0
+        具体到底是先求和还是先取反，为什么进位要加回来，还有大小端问题，就先暂时不考虑吧
+    */ 
+}
+
+
+
+void _utils_print_ip_addr(char* str, uint32_t addr){
+    int addr_read[] = {0,0,0,0};
+    for(int i = 0; i < 4; ++i){
+        uint8_t tmp_addr = addr & 0xff;
+        addr = addr >> 8;
+        addr_read[i] = tmp_addr;
+    }
+    printf("%s: %d.%d.%d.%d\n", str, addr_read[0], addr_read[1], addr_read[2], addr_read[3]);
 }

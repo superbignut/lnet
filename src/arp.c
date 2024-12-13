@@ -92,6 +92,7 @@ void arp_incoming(struct netdev *netdev, struct eth_hdr *ethhdr)
 
     if (netdev->addr != tmp_arp_data->dip) {                            // ?Am I the target protocol address?
         printf("ARP was not for us\n");
+        return;
     }
 
     if (!merge && insert_arp_translation_table(tmp_arp_hdr, tmp_arp_data) != 0) {

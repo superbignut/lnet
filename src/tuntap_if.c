@@ -30,14 +30,26 @@ static int network_interface_set_up(char *dev){
     return _utils_run_cmd("ip link set dev %s up");
 }
 
+
 /// @brief 给端口添加一个路由
 /// @param dev interface name.
 /// @param cidr ip/mask
 /// @return Error 1
 static int network_interface_add_route(char *dev, char *cidr){
-    return 0;
-    // return _utils_run_cmd("ip route add dev %s %s via 0.0.0.0", dev, cidr); // 使用默认路由转发， 不写也是ok的
+    // return 0;
+    return _utils_run_cmd("ip route add dev %s %s", dev, cidr); 
 }
+
+
+/// @brief 
+/// @param dev 
+/// @param cidr 
+/// @return 
+static int network_interface_set_address(char *dev, char *cidr){
+
+    return _utils_run_cmd("ip address add dev %s local %s", dev, cidr);  // 这个local 有什么用呢
+}
+
 
 /// @brief 代码参考 linux 手册， 创建了一个 tap 端口
 /// @param dev 
@@ -82,6 +94,11 @@ void tun_tap_init(char *dev){
     if(network_interface_add_route(dev, "10.0.0.0/24") != 0){
         _utils_print_error("can't add route.");
     }
+
+    if(network_interface_set_address(dev, "10.0.0.5/24") != 0){
+        _utils_print_error("can't set ip addr.");
+    }
+
 }
 
 /// @brief 从端口读

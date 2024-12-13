@@ -41,15 +41,17 @@ struct iphdr{
     uint16_t frag_offset : 13;      // 8字节位单位，分片在原ip报的相对位置
     uint8_t ttl;                    // 跳数， 减到 0 不参与转发
     uint8_t protocol;               // 携带的是什么协议 ：ICMP IPV4...
-    uint16_t csum;                  // 首部校验和
+    uint16_t csum;                  // 首部校验和：只校验首部20个字节
     uint32_t saddr;                 // 源ip
     uint32_t daddr;                 // 目的ip
     uint8_t data[];                 
 }__attribute__((packed));
 
 
-#define LNET_IPV4_VERSION 4
+#define LNET_IPV4_VERSION 4         // ipv4
 
+#define LNET_IP_PROTOCOL_IP 0x4     // ip protocol 字段
+#define LNET_IP_PROTOCOL_ICMPV4 0x1
 
 void ipv4_incoming(struct netdev *dev, struct eth_hdr *ethhdr);
 

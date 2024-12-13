@@ -23,7 +23,7 @@ void network_device_init(struct netdev *dev, char *addr, char *hwaddr){
                                                     &dev->hwaddr[4], &dev->hwaddr[5]); // hhx means unsigned char.
 }
 
-/// @brief 发送 不同 ethernet_type 类型的以太网数据包
+/// @brief 发送 不同 ethernet_type 类型的以太网数据包, 这里暂时不清楚为什么dst要单独拿出来，是为了更多的泛化吗
 /// @param dev 
 /// @param hdr 
 /// @param ethernet_type 输入小端
