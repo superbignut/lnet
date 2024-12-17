@@ -48,7 +48,7 @@ struct iphdr{
 }__attribute__((packed));
 
 
-#define LNET_IPV4_VERSION 4         // ipv4
+#define LNET_IPV4_VERSION 0x04         // ipv4
 
 #define LNET_IP_PROTOCOL_IP 0x4     // ip protocol 字段
 #define LNET_IP_PROTOCOL_ICMPV4 0x1

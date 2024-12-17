@@ -62,7 +62,7 @@ uint16_t _utils_check_sum(void *addr, int count){
     }
 
     if(count > 0){ // 奇数
-        sum += *(uint8_t *)ptr;
+        sum += *(uint8_t *) ptr;
     }
 
     while(sum >> 16){
