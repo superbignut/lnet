@@ -77,7 +77,9 @@ uint16_t _utils_check_sum(void *addr, int count){
 }
 
 
-
+/// @brief 打印 u32 的 IP 地址
+/// @param str 
+/// @param addr 
 void _utils_print_ip_addr(char* str, uint32_t addr){
     int addr_read[] = {0,0,0,0};
     for(int i = 0; i < 4; ++i){
@@ -87,3 +89,23 @@ void _utils_print_ip_addr(char* str, uint32_t addr){
     }
     printf("%s: %d.%d.%d.%d\n", str, addr_read[0], addr_read[1], addr_read[2], addr_read[3]);
 }
+
+
+/// @brief 完成信号的注册
+/// @param signo 
+/// @param handler 
+/// @return 
+int _utils_signal_init(int signo, sighandler_t handler){
+    struct sigaction sa;                    //  
+    sigemptyset(&sa.sa_mask);               //  mask 被用来 block 当前 handler 执行时的其他信号
+    sa.sa_flags = 0;
+    sa.sa_flags |= SA_RESTART;              //  系统调用被信后中断时，会重启
+    sa.sa_handler = handler;
+    
+    if(sigaction(signo, &sa, NULL) < 0){
+        return -1;
+    }
+    return 0;
+}
+
+

@@ -13,8 +13,6 @@
 
 #define BUF_LEN 100
 
-typedef void (*sighandler_t)(int);
-
 ///  用于循环的全局变量
 int running = 1;
 
@@ -40,37 +38,10 @@ void handle_frame(struct netdev *dev, struct eth_hdr *ethhdr)
 
 /// @brief 用于修改全局变量，中断主函数循环
 /// @param signo 
-static void stop_stack_handler(int signo){
+static void stop_running(int signo){
   
   running = 0;
 }
-
-
-/// @brief 完成信号的注册
-/// @param signo 
-/// @param handler 
-/// @return 
-int _signal(int signo, sighandler_t handler){
-  struct sigaction sa;                    //  
-  sigemptyset(&sa.sa_mask);               //  mask 被用来 block 当前 handler 执行时的其他信号
-  sa.sa_flags = 0;
-  sa.sa_flags |= SA_RESTART;              //  系统调用被信后中断时，会重启
-  sa.sa_handler = stop_stack_handler;
-
-  if(sigaction(signo, &sa, NULL) < 0){
-    return -1;
-  }
-  return 0;
-}
-
-
-
-/// @brief 初始化信号处理
-void signals_init(){
-
-  _signal(SIGINT, stop_stack_handler);
-}
-
 
 int main(){
 
@@ -82,7 +53,7 @@ int main(){
   
   _utils_clear_array(buf);  
 
-  signals_init();
+  _utils_signal_init(SIGINT, stop_running);
 
   tun_tap_init(dev);
 
