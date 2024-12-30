@@ -16,6 +16,7 @@
         "fcntl.h": "c",
         "stdint.h": "c",
         "ipv4.h": "c",
-        "icmp.h": "c"
+        "icmp.h": "c",
+        "signal.h": "c"
     }
 }

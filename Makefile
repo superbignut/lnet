@@ -47,3 +47,4 @@ clean:
 check:
 	iptables -L
 
+# gcc -dM -E - < /dev/null 用于打印 gcc 中定义的宏 
