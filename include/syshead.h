@@ -14,4 +14,5 @@
 #include <errno.h>
 #include <unistd.h>
 #include <signal.h>
+#include <assert.h>
 #endif

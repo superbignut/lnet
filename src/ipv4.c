@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "icmp.h"
 #include "netdev.h"
+#include "tcp.h"
 
 /// @brief 以太网收到 ipv4 数据包， 处理函数
 /// @param dev 
@@ -46,6 +47,9 @@ void ipv4_incoming(struct netdev *dev, struct eth_hdr *ethhdr){
     case LNET_IP_PROTOCOL_ICMPV4:
         //  分发给 icmp 进行处理
         icmpv4_incoming(dev, ethhdr);
+        break;
+    case LNET_IP_PROTOCOL_TCP:
+        tcp_in(dev, ethhdr);
         break;
     default:
         _utils_print_error("unknown ip protocol");

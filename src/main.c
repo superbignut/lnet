@@ -10,6 +10,7 @@
 #include "tuntap_if.h"
 #include "arp.h"
 #include "ipv4.h"
+#include "tcp.h"
 
 #define BUF_LEN 100
 
@@ -60,6 +61,10 @@ int main(){
   network_device_init(&net_device, "10.0.0.4", "00:0c:29:6d:50:25");
 
   arp_init();
+
+  ip_init();
+  
+  tcp_init();
 
   while(running){
 

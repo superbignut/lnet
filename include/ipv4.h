@@ -1,5 +1,5 @@
 #ifndef IPV4_H_
-#define IPv4_H_
+#define IPV4_H_
 #include "syshead.h"
 #include "netdev.h"
 #include "ethernet.h"
@@ -48,10 +48,15 @@ struct iphdr{
 }__attribute__((packed));
 
 
-#define LNET_IPV4_VERSION 0x04         // ipv4
+#define LNET_IPV4_VERSION 0x04                //  ipv4
 
-#define LNET_IP_PROTOCOL_IP 0x4     // ip protocol 字段
+#define LNET_IP_PROTOCOL_IP 0x4               //  ip protocol 字段
 #define LNET_IP_PROTOCOL_ICMPV4 0x1
+#define LNET_IP_PROTOCOL_TCP 0x6
+
+static inline void ip_init(){
+  assert(sizeof(struct iphdr) == 20);         //  目前只支持20字节
+}
 
 void ipv4_incoming(struct netdev *dev, struct eth_hdr *ethhdr);
 
