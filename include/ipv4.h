@@ -29,7 +29,7 @@
   0 1 2 3   4 5 6 7 + 
 */
 
-
+#define LNET_IP_HDR_LEN 20
 
 struct iphdr{
     uint8_t ihl: 4;                 // 位域先放低地址位 = 5;
@@ -55,7 +55,7 @@ struct iphdr{
 #define LNET_IP_PROTOCOL_TCP 0x6
 
 static inline void ip_init(){
-  assert(sizeof(struct iphdr) == 20);         //  目前只支持20字节
+  assert(sizeof(struct iphdr) == LNET_IP_HDR_LEN);         //  目前只支持20字节
 }
 
 void ipv4_incoming(struct netdev *dev, struct eth_hdr *ethhdr);

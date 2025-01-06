@@ -47,11 +47,15 @@ void _utils_print_hexdump(char *str, int len)
     printf("\n");
 }
 
-/// @brief 计算 addr 开始的 count 个字节的16位校验和: 求和后取反
+
+
+/// @brief 由于 tcp udp有一个伪首部需要检验，因此提取出一个sum_every_16bits函数
 /// @param addr 
 /// @param count 
 /// @return 
-uint16_t _utils_check_sum(void *addr, int count){
+uint32_t sum_every_16bits(void *addr, int count){
+    
+    // printf("16 bits is %d\n", count);
     uint32_t sum = 0;
 
     uint16_t *ptr = addr;
@@ -65,15 +69,24 @@ uint16_t _utils_check_sum(void *addr, int count){
         sum += *(uint8_t *) ptr;
     }
 
+    return sum;
+}
+
+
+/// @brief 计算 addr 开始的 count 个字节的16位校验和: 求和后取反
+/// @param addr 
+/// @param count 
+/// @return 
+uint16_t _utils_check_sum(void *addr, int count, uint32_t start_sum){
+    
+    uint32_t sum = start_sum;
+
+    sum += sum_every_16bits(addr, count);
+
     while(sum >> 16){
         sum = (sum & 0xffff) + (sum >> 16);
     }
     return ~sum;
-    /*
-        这里就相当于是一种计算方式，更多的细节需要严格的证明，但是简单的理解可以认为，
-        如果原数据 是 0b0011， 校验和就是 0b1100, 求和之后再取反就一定是 0
-        具体到底是先求和还是先取反，为什么进位要加回来，还有大小端问题，就先暂时不考虑吧
-    */ 
 }
 
 

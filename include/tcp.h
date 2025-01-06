@@ -35,13 +35,24 @@ Figure 1: TCP Header Format
 
 */
 
+#define LNET_TCP_HDR_LEN 20
+
+#define LNET_TCP_FIN 0x01
+#define LNET_TCP_SYN 0x02
+#define LNET_TCP_RST 0x04
+#define LNET_TCP_PSH 0x08
+#define LNET_TCP_ACK 0x10
+#define LNET_TCP_URG 0x20
+#define LNET_TCP_ECE 0x40
+#define LNET_TCP_WIN 0x80
+
 struct tcphdr {
     uint16_t sport;             //  源端口号
     uint16_t dport;             //  目的端口号
     uint32_t seq;               //  报文开始序号
     uint32_t ack;               //  期望下一个开始的序号
     uint8_t rsvd : 4;           //  保留
-    uint8_t hl : 4;             //  首部长度
+    uint8_t hl : 4;             //  首部长度 4字节为单位
     uint8_t flags;              //  flags in little endian's cpu
                                 //  low_address ----> high_address
                                 //  FIN SYN RST PSH ACK URG ECE CWR
@@ -51,19 +62,30 @@ struct tcphdr {
     uint8_t data[];             //  数据
 }__attribute__((packed));
 
+/*
+                +--------+--------+--------+--------+
+                |           Source Address          |
+                +--------+--------+--------+--------+
+                |         Destination Address       |
+                +--------+--------+--------+--------+
+                |  zero  |  PTCL  |    TCP Length   |
+                +--------+--------+--------+--------+
+Figure 2: IPv4 Pseudo-header
+
+*/
 
 /// @brief  伪头部，用来计算 tcp 校验和
-struct tcpiphdr {
-    uint32_t saddr;
-    uint32_t daddr;
-    uint8_t zero;
-    uint8_t proto;
-    uint16_t tlen;
+struct pseudo_ip_in_tcp_csum {
+    uint32_t saddr;             //  ip 源地址
+    uint32_t daddr;             //  ip 目的地址
+    uint8_t zero;               //  0
+    uint8_t proto;              //  ip 中的协议字段
+    uint16_t tlen;              //  tcp 头部 + 数据 的总长度 不包括这个 pseudo_header
 }__attribute__((packed));
 
 
 static inline void tcp_init(){
-    assert(sizeof(struct tcphdr) == 20);        //  20字节头部
+    assert(sizeof(struct tcphdr) == LNET_TCP_HDR_LEN);        //  20字节头部
 }
 
 void tcp_in(struct netdev *dev, struct eth_hdr *hdr);

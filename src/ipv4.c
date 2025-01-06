@@ -33,7 +33,7 @@ void ipv4_incoming(struct netdev *dev, struct eth_hdr *ethhdr){
     }
 
     //  4个字节 计算校验和
-    csum = _utils_check_sum(tmp_iphdr, tmp_iphdr->ihl * 4);             
+    csum = _utils_check_sum(tmp_iphdr, tmp_iphdr->ihl * 4, 0);             
 
     if(csum != 0){
         //  校验和失败要丢弃
@@ -73,6 +73,6 @@ void ipv4_outgoing(struct netdev *dev, struct eth_hdr *ethhdr){
 
     
     tmp_iphdr->csum = 0;
-    tmp_iphdr->csum = _utils_check_sum(tmp_iphdr, tmp_iphdr->ihl * 4);
+    tmp_iphdr->csum = _utils_check_sum(tmp_iphdr, tmp_iphdr->ihl * 4, 0);
     netdev_transmit(dev, ethhdr, ETH_P_IP, ntohs(tmp_iphdr->len), ethhdr->smac);
 }

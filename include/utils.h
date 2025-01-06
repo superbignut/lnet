@@ -13,7 +13,9 @@ void _utils_print_error(const char *str, ...);
 
 int _utils_run_cmd(char *cmd, ...);
 
-uint16_t _utils_check_sum(void *addr, int count);
+uint16_t _utils_check_sum(void *addr, int count, uint32_t start_sum);
+
+uint32_t sum_every_16bits(void *addr, int count);
 
 void _utils_print_ip_addr(char *str, uint32_t addr);
 

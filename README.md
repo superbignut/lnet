@@ -12,4 +12,5 @@
         arping -I lnet_tap_0 10.0.0.4   // sudo apt install iputils-arping 
 
         ping 10.0.0.4                   // 
-
+        
+        nmap -Pn 10.0.0.4 -p 1337       // tshark -i lnet_tap_0

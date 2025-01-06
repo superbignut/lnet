@@ -43,7 +43,7 @@ void icmpv4_reply(struct netdev *dev, struct eth_hdr *ethhdr){
     
     // 修改校验和
     tmp_icmp_hdr->csum = 0;
-    tmp_icmp_hdr->csum = _utils_check_sum(tmp_icmp_hdr, icmp_len);
+    tmp_icmp_hdr->csum = _utils_check_sum(tmp_icmp_hdr, icmp_len, 0);
 
     //  ip包发回去
     ipv4_outgoing(dev, ethhdr);
